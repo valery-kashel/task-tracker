@@ -1,0 +1,16 @@
+version: "3"
+
+volumes:
+  database-data:
+
+services:
+  database:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: admin
+      POSTGRES_DB: task-tracker
+    ports:
+      - "5432:5432"
+    volumes:
+      - database-data:/var/lib/postgresql/data
