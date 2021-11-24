@@ -1,6 +1,7 @@
 package com.vkashel.tasktracker.repository.datajpa.impl
 
 import com.vkashel.tasktracker.domain.entities.User
+import com.vkashel.tasktracker.domain.entities.UserRole
 import com.vkashel.tasktracker.repository.api.UserRepository
 import com.vkashel.tasktracker.repository.datajpa.dto.DtoUser
 import com.vkashel.tasktracker.repository.datajpa.jparepositories.DataJpaUserRepository
@@ -31,22 +32,12 @@ class UserRepositoryImpl : UserRepository {
         return dataJpaUserRepository.findByEmail(email)?.toUser()
     }
 
-    private fun userToDto(user: User): DtoUser {
-        return DtoUser(
-            id = user.id,
-            email = user.email,
-            password = user.password,
-            role = user.role,
-            createdTime = user.createdTime
-        )
-    }
-
     private fun User.toDto(): DtoUser {
         return DtoUser(
             id = this.id,
             email = this.email,
             password = this.password,
-            role = this.role,
+            role = this.role.name,
             createdTime = this.createdTime
         )
     }
@@ -56,7 +47,7 @@ class UserRepositoryImpl : UserRepository {
             id = this.id,
             email = this.email,
             password = this.password,
-            role = this.role,
+            role = UserRole.valueOf(this.role),
             createdTime = this.createdTime
         )
     }

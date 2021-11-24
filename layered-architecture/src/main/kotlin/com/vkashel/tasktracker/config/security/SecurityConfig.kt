@@ -18,7 +18,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 class SecurityConfig(private val jwtTokenAuthFilter: JwtTokenAuthFilter) : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-            .antMatchers("/api/v1/login", "/api/v1/register").permitAll()
+            .antMatchers("/api/v1/login", "/api/v1/registration").permitAll()
             .antMatchers("/**").authenticated()
             .and()
             .cors().configurationSource(corsConfigurationSource())

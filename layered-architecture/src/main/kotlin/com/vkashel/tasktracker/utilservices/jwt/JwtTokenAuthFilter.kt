@@ -21,11 +21,15 @@ class JwtTokenAuthFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val tokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION).replace("Bearer ", "")
+        val header = request.getHeader(HttpHeaders.AUTHORIZATION)
+        if (header == null || header.isEmpty()) {
+            return filterChain.doFilter(request, response)
+        }
+        val tokenHeader = header.replace("Bearer ", "")
         val userId = jwtTokenProvider.verifyTokenAndGetUserId(tokenHeader)
         val user = userRepository.find(userId) ?: throw RuntimeException("user was not found")
         SecurityContextHolder.getContext().authentication =
-            UsernamePasswordAuthenticationToken(user.id, user.password, listOf(SimpleGrantedAuthority(user.role)))
+            UsernamePasswordAuthenticationToken(user.id, user.password, listOf(SimpleGrantedAuthority(user.role.name)))
         filterChain.doFilter(request, response)
     }
 }

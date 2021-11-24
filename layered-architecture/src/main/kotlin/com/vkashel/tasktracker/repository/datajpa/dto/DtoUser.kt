@@ -10,7 +10,7 @@ import javax.persistence.Id
 @Entity(name = "users")
 class DtoUser(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long,
     @Column
     var email: String,

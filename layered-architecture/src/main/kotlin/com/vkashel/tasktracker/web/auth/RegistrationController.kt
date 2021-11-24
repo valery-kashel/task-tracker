@@ -1,6 +1,7 @@
 package com.vkashel.tasktracker.web.auth
 
 import com.vkashel.tasktracker.domain.entities.User
+import com.vkashel.tasktracker.domain.entities.UserRole
 import com.vkashel.tasktracker.domain.services.UserService
 import com.vkashel.tasktracker.web.auth.requests.UserRegistrationRequest
 import org.springframework.http.HttpStatus
@@ -14,12 +15,11 @@ import java.time.ZonedDateTime
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/api/v1/auth/registration")
+@RequestMapping("/api/v1/registration")
 class RegistrationController(
     private val userService: UserService,
     private val passwordEncoder: PasswordEncoder
 ) {
-
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -28,7 +28,7 @@ class RegistrationController(
             User(
                 email = request.email,
                 password = passwordEncoder.encode(request.password),
-                role = "USER",
+                role = UserRole.USER,
                 createdTime = ZonedDateTime.now()
             )
         )
