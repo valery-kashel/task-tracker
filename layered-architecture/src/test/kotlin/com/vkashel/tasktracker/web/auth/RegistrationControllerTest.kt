@@ -1,6 +1,5 @@
 package com.vkashel.tasktracker.web.auth
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.vkashel.tasktracker.AbstractTest
 import com.vkashel.tasktracker.domain.entities.UserRole
 import com.vkashel.tasktracker.repository.api.UserRepository
@@ -58,7 +57,6 @@ class RegistrationControllerTest : AbstractTest() {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(request))
         )
-
             .andExpect(status().isBadRequest)
         request = UserRegistrationRequest(
             email = "test@gmail.com",
