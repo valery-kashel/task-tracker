@@ -2,7 +2,7 @@ package com.vkashel.tasktracker.utilservices.jwt
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.vkashel.tasktracker.domain.entities.User
+import com.vkashel.tasktracker.domain.entities.user.User
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component

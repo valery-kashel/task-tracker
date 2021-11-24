@@ -1,7 +1,7 @@
 package com.vkashel.tasktracker.web.auth
 
 import com.vkashel.tasktracker.AbstractTest
-import com.vkashel.tasktracker.domain.entities.UserRole
+import com.vkashel.tasktracker.domain.entities.user.UserRole
 import com.vkashel.tasktracker.repository.api.UserRepository
 import com.vkashel.tasktracker.web.auth.requests.UserRegistrationRequest
 import org.junit.jupiter.api.Assertions.assertEquals

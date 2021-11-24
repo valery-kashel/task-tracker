@@ -1,7 +1,8 @@
 package com.vkashel.tasktracker
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.vkashel.tasktracker.domain.entities.User
+import com.vkashel.tasktracker.domain.entities.user.User
+import com.vkashel.tasktracker.repository.api.TaskRepository
 import com.vkashel.tasktracker.repository.api.UserRepository
 import com.vkashel.tasktracker.utilservices.jwt.JwtTokenProvider
 import com.vkashel.tasktracker.web.auth.requests.UserRegistrationRequest
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
@@ -29,6 +31,9 @@ class AbstractTest {
     private lateinit var userRepository: UserRepository
 
     @Autowired
+    private lateinit var taskRepository: TaskRepository
+
+    @Autowired
     private lateinit var tokenProvider: JwtTokenProvider
 
     @Autowired
@@ -36,13 +41,14 @@ class AbstractTest {
 
     @AfterEach
     private fun clearDb() {
+        taskRepository.deleteAll()
         userRepository.deleteAll()
     }
 
     protected fun createUser(email: String, password: String): User {
         val request = UserRegistrationRequest(
-            email = "test@gmail.com",
-            password = "password"
+            email = email,
+            password = password
         )
         mvc.perform(
             MockMvcRequestBuilders.post("/api/v1/registration")
@@ -55,5 +61,9 @@ class AbstractTest {
 
     protected fun createToken(user: User): String {
         return tokenProvider.createJwtToken(user)
+    }
+
+    protected fun MockHttpServletRequestBuilder.authorized(token: String): MockHttpServletRequestBuilder {
+        return this.header("Authorization", "Bearer $token")
     }
 }

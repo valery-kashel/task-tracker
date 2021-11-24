@@ -1,6 +1,6 @@
 package com.vkashel.tasktracker.web.user.responses
 
-import com.vkashel.tasktracker.domain.entities.User
+import com.vkashel.tasktracker.domain.entities.user.User
 
 data class UserInfoResponse(
     val id: Long,

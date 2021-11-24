@@ -1,7 +1,7 @@
 package com.vkashel.tasktracker.web.auth
 
-import com.vkashel.tasktracker.domain.entities.User
-import com.vkashel.tasktracker.domain.entities.UserRole
+import com.vkashel.tasktracker.domain.entities.user.User
+import com.vkashel.tasktracker.domain.entities.user.UserRole
 import com.vkashel.tasktracker.domain.services.UserService
 import com.vkashel.tasktracker.web.auth.requests.UserRegistrationRequest
 import org.springframework.http.HttpStatus

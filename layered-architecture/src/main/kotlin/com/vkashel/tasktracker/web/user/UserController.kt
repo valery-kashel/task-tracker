@@ -1,6 +1,6 @@
 package com.vkashel.tasktracker.web.user
 
-import com.vkashel.tasktracker.domain.entities.User
+import com.vkashel.tasktracker.domain.entities.user.User
 import com.vkashel.tasktracker.domain.services.UserService
 import com.vkashel.tasktracker.web.user.responses.UserInfoResponse
 import org.springframework.security.core.annotation.AuthenticationPrincipal
