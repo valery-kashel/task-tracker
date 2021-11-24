@@ -6,6 +6,7 @@ import com.vkashel.tasktracker.domain.services.UserService
 import com.vkashel.tasktracker.web.auth.requests.UserRegistrationRequest
 import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -23,7 +24,7 @@ class RegistrationController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun registration(@RequestBody @Valid request: UserRegistrationRequest) {
+    fun registration(@Valid @RequestBody request: UserRegistrationRequest) {
         userService.registerUser(
             User(
                 email = request.email,

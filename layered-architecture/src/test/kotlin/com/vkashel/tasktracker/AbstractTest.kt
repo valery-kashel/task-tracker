@@ -1,5 +1,6 @@
 package com.vkashel.tasktracker
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.vkashel.tasktracker.repository.api.UserRepository
 import com.vkashel.tasktracker.repository.datajpa.jparepositories.DataJpaUserRepository
 import org.junit.jupiter.api.AfterEach
@@ -21,6 +22,9 @@ class AbstractTest {
 
     @Autowired
     private lateinit var dataJpaUserRepository: DataJpaUserRepository
+
+    protected val mapper = ObjectMapper()
+
 
     @AfterEach
     private fun clearDb() {

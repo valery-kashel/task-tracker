@@ -1,15 +1,15 @@
 package com.vkashel.tasktracker.web.auth.requests
 
 import javax.validation.constraints.Email
-import javax.validation.constraints.Min
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.Size
 
 data class UserRegistrationRequest(
-    @NotBlank
-    @Email
-    val email:String,
+    @get:NotBlank
+    @get:Email
+    val email: String,
 
-    @NotBlank
-    @Min(6)
+    @get:NotBlank
+    @get:Size(min = 6)
     val password: String
 )

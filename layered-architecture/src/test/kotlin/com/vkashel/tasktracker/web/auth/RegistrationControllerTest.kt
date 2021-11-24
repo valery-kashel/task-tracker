@@ -7,6 +7,7 @@ import com.vkashel.tasktracker.repository.api.UserRepository
 import com.vkashel.tasktracker.web.auth.requests.UserRegistrationRequest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,7 +26,6 @@ class RegistrationControllerTest : AbstractTest() {
 
     @Test
     fun givenNewUser_whenUserRegister_thenRegistrationSuccess() {
-        val mapper = ObjectMapper()
         val request = UserRegistrationRequest(
             email = "test@gmail.com",
             password = "password"
@@ -46,4 +46,52 @@ class RegistrationControllerTest : AbstractTest() {
         assertNotNull(user.id)
     }
 
+    @Test
+    fun givenNewUserWithWrongData_whenUserRegister_thenRegistrationFailedWith400Code() {
+        var request = UserRegistrationRequest(
+            email = "",
+            password = "password"
+        )
+
+        mvc.perform(
+            post("/api/v1/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(request))
+        )
+
+            .andExpect(status().isBadRequest)
+        request = UserRegistrationRequest(
+            email = "test@gmail.com",
+            password = ""
+        )
+
+        mvc.perform(
+            post("/api/v1/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(request))
+        )
+            .andExpect(status().isBadRequest)
+        assertNull(userRepository.findByEmail(request.email))
+    }
+
+    @Test
+    fun givenExistedUser_whenNewUserRegisterWithSameEmail_thenRegistrationFailed() {
+        val request = UserRegistrationRequest(
+            email = "test@gmail.com",
+            password = "qwerty"
+        )
+        mvc.perform(
+            post("/api/v1/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(request))
+        )
+            .andExpect(status().isCreated)
+
+        mvc.perform(
+            post("/api/v1/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(request))
+        )
+            .andExpect(status().isBadRequest)
+    }
 }
