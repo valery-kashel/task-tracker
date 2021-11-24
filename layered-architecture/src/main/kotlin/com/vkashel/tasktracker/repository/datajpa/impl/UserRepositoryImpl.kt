@@ -32,6 +32,14 @@ class UserRepositoryImpl : UserRepository {
         return dataJpaUserRepository.findByEmail(email)?.toUser()
     }
 
+    override fun getByEmail(email: String): User {
+        return findByEmail(email)!!
+    }
+
+    override fun deleteAll() {
+        dataJpaUserRepository.deleteAll()
+    }
+
     private fun User.toDto(): DtoUser {
         return DtoUser(
             id = this.id,

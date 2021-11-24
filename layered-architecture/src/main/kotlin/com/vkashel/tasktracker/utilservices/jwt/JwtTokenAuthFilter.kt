@@ -26,10 +26,13 @@ class JwtTokenAuthFilter(
             return filterChain.doFilter(request, response)
         }
         val tokenHeader = header.replace("Bearer ", "")
+        if (tokenHeader.isEmpty()) {
+            return filterChain.doFilter(request, response)
+        }
         val userId = jwtTokenProvider.verifyTokenAndGetUserId(tokenHeader)
         val user = userRepository.find(userId) ?: throw RuntimeException("user was not found")
         SecurityContextHolder.getContext().authentication =
-            UsernamePasswordAuthenticationToken(user.id, user.password, listOf(SimpleGrantedAuthority(user.role.name)))
+            UsernamePasswordAuthenticationToken(user, user.password, listOf(SimpleGrantedAuthority(user.role.name)))
         filterChain.doFilter(request, response)
     }
 }

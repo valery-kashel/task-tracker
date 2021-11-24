@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class ControllerExceptionHandler {
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(
         MethodArgumentNotValidException::class
