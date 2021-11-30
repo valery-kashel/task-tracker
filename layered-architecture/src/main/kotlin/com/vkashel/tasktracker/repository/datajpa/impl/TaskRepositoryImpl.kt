@@ -6,6 +6,8 @@ import com.vkashel.tasktracker.repository.datajpa.jparepositories.DataJpaTaskRep
 import com.vkashel.tasktracker.repository.datajpa.jparepositories.DataJpaUserRepository
 import com.vkashel.tasktracker.repository.datajpa.mappingutils.toDto
 import com.vkashel.tasktracker.repository.datajpa.mappingutils.toTask
+import com.vkashel.tasktracker.util.PageResponse
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -25,7 +27,16 @@ class TaskRepositoryImpl(
         taskRepository.deleteAll()
     }
 
-    override fun getById(id: Long): Task {
-        return taskRepository.getById(id).toTask()
+    override fun findById(id: Long): Task? {
+        return taskRepository.findById(id)
+            .map { it.toTask() }
+            .orElse(null)
+    }
+
+    override fun findAll(page: Int, size: Int): PageResponse<Task> {
+        val pageable = PageRequest.of(page, size)
+        val pagedTasks = taskRepository.findAll(pageable)
+        return PageResponse.of(pageable, pagedTasks)
+            .map { it.toTask() }
     }
 }
